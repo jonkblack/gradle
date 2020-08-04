@@ -91,6 +91,10 @@ public abstract class DefaultSettings extends AbstractPluginAware implements Set
         this.services = serviceRegistryFactory.createFor(this);
         this.rootProjectDescriptor = createProjectDescriptor(null, settingsDir.getName(), settingsDir);
         this.dependencyResolutionManagement = services.get(DependencyResolutionManagementInternal.class);
+
+        if (getBuildSrcDir().exists()) {
+            includeBuild(BUILD_SRC);
+        }
     }
 
     @Override
