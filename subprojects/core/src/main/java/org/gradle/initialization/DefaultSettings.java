@@ -93,7 +93,10 @@ public abstract class DefaultSettings extends AbstractPluginAware implements Set
         this.dependencyResolutionManagement = services.get(DependencyResolutionManagementInternal.class);
 
         if (getBuildSrcDir().exists()) {
-            includeBuild(BUILD_SRC);
+            // TODO: Disallow someone from adding buildSrc explicitly for now
+            includeBuild(BUILD_SRC, buildSrc -> {
+                buildSrc.plugins(injectedPluginDependencies -> injectedPluginDependencies.id("org.gradle.buildsrc"));
+            });
         }
     }
 
