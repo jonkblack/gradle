@@ -27,6 +27,9 @@ import org.gradle.internal.snapshot.FileSystemSnapshotVisitor;
 import java.util.HashSet;
 import java.util.Map;
 
+import static org.gradle.internal.fingerprint.impl.EmptyDirectorySensitivity.FINGERPRINT;
+import static org.gradle.internal.fingerprint.impl.EmptyDirectorySensitivity.IGNORE;
+
 /**
  * Fingerprint files normalizing the path to the file name.
  *
@@ -34,16 +37,23 @@ import java.util.Map;
  */
 public class NameOnlyFingerprintingStrategy extends AbstractFingerprintingStrategy {
 
-    public static final NameOnlyFingerprintingStrategy INSTANCE = new NameOnlyFingerprintingStrategy();
+    public static final NameOnlyFingerprintingStrategy FINGERPRINT_DIRECTORIES = new NameOnlyFingerprintingStrategy(FINGERPRINT);
+    public static final NameOnlyFingerprintingStrategy IGNORE_DIRECTORIES = new NameOnlyFingerprintingStrategy(IGNORE);
     public static final String IDENTIFIER = "NAME_ONLY";
+    private final EmptyDirectorySensitivity emptyDirectorySensitivity;
 
-    private NameOnlyFingerprintingStrategy() {
+    private NameOnlyFingerprintingStrategy(EmptyDirectorySensitivity emptyDirectorySensitivity) {
         super(IDENTIFIER);
+        this.emptyDirectorySensitivity = emptyDirectorySensitivity;
     }
 
     @Override
     public String normalizePath(CompleteFileSystemLocationSnapshot snapshot) {
         return snapshot.getName();
+    }
+
+    private boolean shouldFingerprint(CompleteDirectorySnapshot directorySnapshot) {
+        return !(directorySnapshot.getChildren().isEmpty() && emptyDirectorySensitivity == IGNORE);
     }
 
     @Override
@@ -57,7 +67,7 @@ public class NameOnlyFingerprintingStrategy extends AbstractFingerprintingStrate
                 @Override
                 public boolean preVisitDirectory(CompleteDirectorySnapshot directorySnapshot) {
                     String absolutePath = directorySnapshot.getAbsolutePath();
-                    if (processedEntries.add(absolutePath)) {
+                    if (processedEntries.add(absolutePath) && shouldFingerprint(directorySnapshot)) {
                         FileSystemLocationFingerprint fingerprint = isRoot() ? IgnoredPathFileSystemLocationFingerprint.DIRECTORY : new DefaultFileSystemLocationFingerprint(directorySnapshot.getName(), directorySnapshot);
                         builder.put(absolutePath, fingerprint);
                     }

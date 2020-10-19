@@ -71,8 +71,10 @@ import org.gradle.internal.fingerprint.impl.DefaultFileCollectionSnapshotter;
 import org.gradle.internal.fingerprint.impl.DefaultGenericFileTreeSnapshotter;
 import org.gradle.internal.fingerprint.impl.IgnoredPathFileCollectionFingerprinter;
 import org.gradle.internal.fingerprint.impl.NameOnlyFileCollectionFingerprinter;
+import org.gradle.internal.fingerprint.impl.NameOnlyIgnoreEmptyFileCollectionFingerprinter;
 import org.gradle.internal.fingerprint.impl.OutputFileCollectionFingerprinter;
 import org.gradle.internal.fingerprint.impl.RelativePathFileCollectionFingerprinter;
+import org.gradle.internal.fingerprint.impl.RelativePathIgnoreEmptyFileCollectionFingerprinter;
 import org.gradle.internal.hash.DefaultFileHasher;
 import org.gradle.internal.hash.FileHasher;
 import org.gradle.internal.hash.HashCode;
@@ -419,8 +421,16 @@ public class VirtualFileSystemServices extends AbstractPluginServiceRegistry {
             return new RelativePathFileCollectionFingerprinter(stringInterner, fileCollectionSnapshotter);
         }
 
+        RelativePathIgnoreEmptyFileCollectionFingerprinter createRelativePathIgnoreEmptyFileCollectionFingerprinter(StringInterner stringInterner, FileCollectionSnapshotter fileCollectionSnapshotter) {
+            return new RelativePathIgnoreEmptyFileCollectionFingerprinter(stringInterner, fileCollectionSnapshotter);
+        }
+
         NameOnlyFileCollectionFingerprinter createNameOnlyFileCollectionFingerprinter(FileCollectionSnapshotter fileCollectionSnapshotter) {
             return new NameOnlyFileCollectionFingerprinter(fileCollectionSnapshotter);
+        }
+
+        NameOnlyIgnoreEmptyFileCollectionFingerprinter createNameOnlyIgnoreEmptyFileCollectionFingerprinter(FileCollectionSnapshotter fileCollectionSnapshotter) {
+            return new NameOnlyIgnoreEmptyFileCollectionFingerprinter(fileCollectionSnapshotter);
         }
 
         IgnoredPathFileCollectionFingerprinter createIgnoredPathFileCollectionFingerprinter(FileCollectionSnapshotter fileCollectionSnapshotter) {
