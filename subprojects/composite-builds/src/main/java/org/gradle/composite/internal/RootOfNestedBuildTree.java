@@ -23,7 +23,9 @@ import org.gradle.api.initialization.Settings;
 import org.gradle.api.internal.BuildDefinition;
 import org.gradle.api.internal.GradleInternal;
 import org.gradle.api.internal.SettingsInternal;
+import org.gradle.initialization.DefaultSettings;
 import org.gradle.initialization.GradleLauncher;
+import org.gradle.initialization.IncludedBuildSpec;
 import org.gradle.initialization.NestedBuildFactory;
 import org.gradle.initialization.RunNestedBuildBuildOperationType;
 import org.gradle.internal.InternalBuildAdapter;
@@ -57,6 +59,13 @@ public class RootOfNestedBuildTree extends AbstractCompositeParticipantBuildStat
 
     public void attach() {
         gradleLauncher.getGradle().getServices().get(BuildStateRegistry.class).attachRootBuild(this);
+    }
+
+    @Override
+    public void assertCanAdd(IncludedBuildSpec includedBuildSpec) {
+        if (!includedBuildSpec.rootDir.getName().equals(DefaultSettings.BUILD_SRC)) {
+            super.assertCanAdd(includedBuildSpec);
+        }
     }
 
     @Override

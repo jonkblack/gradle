@@ -20,6 +20,7 @@ import org.gradle.api.initialization.IncludedBuild;
 import org.gradle.api.internal.BuildDefinition;
 import org.gradle.api.internal.GradleInternal;
 import org.gradle.api.internal.SettingsInternal;
+import org.gradle.initialization.DefaultSettings;
 import org.gradle.initialization.IncludedBuildSpec;
 import org.gradle.initialization.SettingsLoader;
 import org.gradle.initialization.definition.InjectedPluginResolver;
@@ -51,9 +52,16 @@ public class ChildBuildRegisteringSettingsLoader implements SettingsLoader {
     public SettingsInternal findAndLoadSettings(GradleInternal gradle) {
         SettingsInternal settings = delegate.findAndLoadSettings(gradle);
 
+        if (settings.getBuildSrcDir().exists()) {
+            // TODO: Disallow someone from adding buildSrc explicitly for now
+            settings.includeBuild(DefaultSettings.BUILD_SRC, buildSrc -> {
+                buildSrc.plugins(injectedPluginDependencies -> injectedPluginDependencies.id("org.gradle.buildsrc"));
+            });
+        }
+
         // Add included builds defined in settings
         List<IncludedBuildSpec> includedBuilds = settings.getIncludedBuilds();
-        InjectedPluginResolver resolver = new InjectedPluginResolver();
+
         if (!includedBuilds.isEmpty()) {
             Set<IncludedBuild> children = new LinkedHashSet<IncludedBuild>(includedBuilds.size());
             for (IncludedBuildSpec includedBuildSpec : includedBuilds) {

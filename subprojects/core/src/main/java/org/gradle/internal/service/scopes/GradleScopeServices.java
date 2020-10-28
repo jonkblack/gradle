@@ -155,12 +155,6 @@ public class GradleScopeServices extends DefaultServiceRegistry {
         if (gradle.isRootBuild()) {
             return sharedControllers;
         } else {
-            // TODO: buildSrc shouldn't be special here, but since buildSrc is built separately from other included builds and the root build
-            // We need to treat buildSrc as if it's a root build so that it can depend on included builds that may substitute dependencies
-            // into buildSrc
-            if (gradle.getOwner().getBuildIdentifier().getName().equals(SettingsInternal.BUILD_SRC)) {
-                return new IncludedBuildControllers.BuildSrcIncludedBuildControllers(sharedControllers);
-            }
             return IncludedBuildControllers.EMPTY;
         }
     }

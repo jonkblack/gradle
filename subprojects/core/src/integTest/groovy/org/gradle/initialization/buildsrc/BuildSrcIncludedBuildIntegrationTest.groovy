@@ -16,25 +16,12 @@
 
 package org.gradle.initialization.buildsrc
 
-
+import groovy.transform.NotYetImplemented
 import org.gradle.integtests.fixtures.AbstractIntegrationSpec
 import org.gradle.test.fixtures.file.TestFile
 import org.gradle.test.fixtures.plugin.PluginBuilder
 
 class BuildSrcIncludedBuildIntegrationTest extends AbstractIntegrationSpec {
-    def "buildSrc cannot (yet) define any included builds"() {
-        file("buildSrc/settings.gradle") << """
-            includeBuild "child"
-        """
-        file("buildSrc/child/settings.gradle").createFile()
-
-        when:
-        fails()
-
-        then:
-        failure.assertHasDescription("Cannot include build 'child' in build 'buildSrc'. This is not supported yet.")
-    }
-
     def "buildSrc can apply plugins contributed by other included builds"() {
         file("buildSrc/build.gradle") << """
             plugins {
@@ -67,6 +54,7 @@ class BuildSrcIncludedBuildIntegrationTest extends AbstractIntegrationSpec {
         outputContains("test-plugin applied to :buildSrc")
     }
 
+    @NotYetImplemented
     def "buildSrc can apply settings plugins contributed by other included builds"() {
         file("buildSrc/settings.gradle") << """
             plugins {
@@ -87,6 +75,7 @@ class BuildSrcIncludedBuildIntegrationTest extends AbstractIntegrationSpec {
         outputContains("test-settings-plugin applied to :buildSrc")
     }
 
+    @NotYetImplemented
     def "buildSrc can apply plugins contributed by nested included build"() {
         file("buildSrc/build.gradle") << """
             plugins {
