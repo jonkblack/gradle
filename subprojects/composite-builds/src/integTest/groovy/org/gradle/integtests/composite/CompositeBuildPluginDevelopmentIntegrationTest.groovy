@@ -345,7 +345,7 @@ class CompositeBuildPluginDevelopmentIntegrationTest extends AbstractCompositeBu
         failure.assertHasDescription("Included build dependency cycle: build 'pluginDependencyA' -> build 'pluginDependencyB' -> build 'pluginDependencyA'")
     }
 
-    @ToBeFixedForConfigurationCache
+    @ToBeFixedForConfigurationCache(because = ":tasks")
     def "can co-develop plugin applied via plugins block with resolution strategy applied"() {
         given:
         applyPluginFromRepo(buildA, """
