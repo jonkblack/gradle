@@ -17,9 +17,13 @@
 package org.gradle.internal.fingerprint;
 
 import org.gradle.api.tasks.FileNormalizer;
+import org.gradle.internal.fingerprint.impl.EmptyDirectorySensitivity;
 
 /**
- * {@link FileNormalizer} that uses the location of files in a hierarchy as normalized paths but ignores empty directories.
+ * Specifies criteria for selecting a {@link FileCollectionFingerprinter}
  */
-public interface RelativePathIgnoreEmptyInputNormalizer extends FileNormalizer {
+public interface FileCollectionFingerprinterSpec {
+    Class<? extends FileNormalizer> getNormalizer();
+
+    EmptyDirectorySensitivity getEmptyDirectorySensitivity();
 }

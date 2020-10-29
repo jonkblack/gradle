@@ -16,10 +16,8 @@
 
 package org.gradle.internal.fingerprint;
 
-import org.gradle.api.tasks.FileNormalizer;
-
 /**
- * {@link FileNormalizer} that uses the file name as normalized path but ignores empty directories.
+ * A normalizer that may or may not take empty directories into account when performing up-to-date or build cache key calculations.
  */
-public interface NameOnlyIgnoreEmptyInputNormalizer extends FileNormalizer {
+public interface EmptyDirectorySensitiveNormalizer {
 }

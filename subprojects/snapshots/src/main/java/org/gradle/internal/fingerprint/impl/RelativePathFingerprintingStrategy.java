@@ -30,7 +30,7 @@ import org.gradle.internal.snapshot.RelativePathStringTracker;
 import java.util.HashSet;
 import java.util.Map;
 
-import static org.gradle.internal.fingerprint.impl.EmptyDirectorySensitivity.IGNORE;
+import static org.gradle.internal.fingerprint.impl.EmptyDirectorySensitivity.IGNORE_EMPTY;
 
 /**
  * Fingerprint {@link org.gradle.api.file.FileCollection}s normalizing the path to the relative path in a hierarchy.
@@ -59,7 +59,7 @@ public class RelativePathFingerprintingStrategy extends AbstractFingerprintingSt
     }
 
     private boolean shouldFingerprint(CompleteDirectorySnapshot directorySnapshot) {
-        return !(directorySnapshot.getChildren().isEmpty() && emptyDirectorySensitivity == IGNORE);
+        return !(directorySnapshot.getChildren().isEmpty() && emptyDirectorySensitivity == IGNORE_EMPTY);
     }
 
     @Override

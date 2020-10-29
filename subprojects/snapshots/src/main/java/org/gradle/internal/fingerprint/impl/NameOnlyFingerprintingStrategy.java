@@ -27,9 +27,6 @@ import org.gradle.internal.snapshot.FileSystemSnapshotVisitor;
 import java.util.HashSet;
 import java.util.Map;
 
-import static org.gradle.internal.fingerprint.impl.EmptyDirectorySensitivity.FINGERPRINT;
-import static org.gradle.internal.fingerprint.impl.EmptyDirectorySensitivity.IGNORE;
-
 /**
  * Fingerprint files normalizing the path to the file name.
  *
@@ -37,8 +34,8 @@ import static org.gradle.internal.fingerprint.impl.EmptyDirectorySensitivity.IGN
  */
 public class NameOnlyFingerprintingStrategy extends AbstractFingerprintingStrategy {
 
-    public static final NameOnlyFingerprintingStrategy FINGERPRINT_DIRECTORIES = new NameOnlyFingerprintingStrategy(FINGERPRINT);
-    public static final NameOnlyFingerprintingStrategy IGNORE_DIRECTORIES = new NameOnlyFingerprintingStrategy(IGNORE);
+    public static final NameOnlyFingerprintingStrategy FINGERPRINT_DIRECTORIES = new NameOnlyFingerprintingStrategy(EmptyDirectorySensitivity.FINGERPRINT_EMPTY);
+    public static final NameOnlyFingerprintingStrategy IGNORE_DIRECTORIES = new NameOnlyFingerprintingStrategy(EmptyDirectorySensitivity.IGNORE_EMPTY);
     public static final String IDENTIFIER = "NAME_ONLY";
     private final EmptyDirectorySensitivity emptyDirectorySensitivity;
 
@@ -53,7 +50,7 @@ public class NameOnlyFingerprintingStrategy extends AbstractFingerprintingStrate
     }
 
     private boolean shouldFingerprint(CompleteDirectorySnapshot directorySnapshot) {
-        return !(directorySnapshot.getChildren().isEmpty() && emptyDirectorySensitivity == IGNORE);
+        return !(directorySnapshot.getChildren().isEmpty() && emptyDirectorySensitivity == EmptyDirectorySensitivity.IGNORE_EMPTY);
     }
 
     @Override

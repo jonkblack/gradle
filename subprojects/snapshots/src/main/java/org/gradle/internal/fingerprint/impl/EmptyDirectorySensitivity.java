@@ -20,5 +20,10 @@ package org.gradle.internal.fingerprint.impl;
  * Specifies how a fingerprinter should handle empty directories that are found in a filecollection.
  */
 public enum EmptyDirectorySensitivity {
-    FINGERPRINT, IGNORE
+    // Fingerprint empty directories
+    FINGERPRINT_EMPTY,
+    // Ignore empty directories
+    IGNORE_EMPTY,
+    // Not important (i.e. the fingerprinter does not handle empty directories one way or the other)
+    NONE
 }
