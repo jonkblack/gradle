@@ -124,6 +124,7 @@ public class ToolingApiCompatibilityClient {
             ByteArrayOutputStream err = new ByteArrayOutputStream();
 
             connection.newBuild()
+                .withArguments("-s")
                 .forTasks("help")
                 .setStandardOutput(out)
                 .setStandardError(err)
