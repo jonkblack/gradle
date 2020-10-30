@@ -72,7 +72,10 @@ abstract class ToolingApiClientJdkCompatibilityTest extends AbstractIntegrationS
             }
         """
         settingsFile << "rootProject.name = 'client-runner'"
-        file('gradle.properties') << "org.gradle.java.installations.paths=${compilerJavaHomePath}"
+        file('gradle.properties') << """
+org.gradle.logging.level=info
+org.gradle.java.installations.paths=${compilerJavaHomePath}
+"""
         file("test-project/build.gradle") << "println 'Hello from ' + gradle.gradleVersion"
         file("test-project/settings.gradle") << "rootProject.name = 'target-project'"
         file("src/main/java/ToolingApiCompatibilityClient.java") << """
