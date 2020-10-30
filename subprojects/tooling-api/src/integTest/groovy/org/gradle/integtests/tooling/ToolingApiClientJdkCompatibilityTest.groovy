@@ -123,12 +123,11 @@ public class ToolingApiCompatibilityClient {
 
         ProjectConnection connection = null;
 
-        try {
-            connection = connector.forProjectDirectory(projectLocation).useGradleUserHomeDir(gradleUserHome).connect();
-
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             ByteArrayOutputStream err = new ByteArrayOutputStream();
 
+        try {
+            connection = connector.forProjectDirectory(projectLocation).useGradleUserHomeDir(gradleUserHome).connect();
             connection.newBuild()
                 .withArguments("-s")
                 .forTasks("help")
@@ -141,6 +140,11 @@ public class ToolingApiCompatibilityClient {
             System.err.println(err.toString());
             return 0;
         } catch (Exception e) {
+            System.out.println("stdout: ");
+            System.out.println(out.toString());
+            System.out.println("stderr: ");
+            System.out.println(err.toString());
+
             e.printStackTrace();
             return 1;
         } finally {
