@@ -43,6 +43,7 @@ import org.gradle.internal.operations.BuildOperationQueue
 import org.gradle.internal.operations.RunnableBuildOperation
 import java.io.File
 
+
 class CalculateArtifactsCodec(
     private val calculatedValueContainerFactory: CalculatedValueContainerFactory
 ) : Codec<AbstractTransformedArtifactSet.CalculateArtifacts> {

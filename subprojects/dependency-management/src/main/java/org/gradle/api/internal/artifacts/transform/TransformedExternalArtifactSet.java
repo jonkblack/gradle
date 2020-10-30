@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableList;
 import org.gradle.api.artifacts.component.ComponentIdentifier;
 import org.gradle.api.internal.artifacts.ivyservice.resolveengine.artifact.ResolvedArtifactSet;
 import org.gradle.api.internal.attributes.ImmutableAttributes;
-import org.gradle.api.internal.tasks.TaskDependencyResolveContext;
 import org.gradle.internal.model.CalculatedValueContainer;
 import org.gradle.internal.model.CalculatedValueContainerFactory;
 
@@ -41,9 +40,5 @@ public class TransformedExternalArtifactSet extends AbstractTransformedArtifactS
 
     public TransformedExternalArtifactSet(CalculatedValueContainer<ImmutableList<Artifacts>, AbstractTransformedArtifactSet.CalculateArtifacts> result) {
         super(result);
-    }
-
-    @Override
-    public void visitDependencies(TaskDependencyResolveContext context) {
     }
 }
